@@ -51,7 +51,18 @@ class Rating(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
+    # Need rating_id to autoincrement without being passed through as an 
+    # parameter when creating an object
+    # we need a class method and create a new object
+    # need to insert sql into the python db.session.execute
+    # ("INSERT INTO ratings Values(movie_id, user_id, score)")
+    @classmethod 
+    def make_rating(cls, movie_id, user_id, score):
+        """Insert rating into ratings table of database"""
 
+        db.session.execute(
+            "INSERT INTO ratings VALUES (rating_id, movie_id, user_id, score)")
+        # db.session.commit()
 ##############################################################################
 # Helper functions
 
@@ -60,6 +71,7 @@ def connect_to_db(app):
 
     # Configure to use our PstgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+    app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
 

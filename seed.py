@@ -93,27 +93,40 @@ def load_ratings():
     # we won't be trying to add duplicate ratings by same user
     Rating.query.delete()
 
+    # NO NEED FOR MANUAL INCREMENTATION DUE TO AUTOINCREMENT IN MODEL
     # PSUEDO CODE for rating_id
     # total rows = 0
     # loop through file, and for each row, add to total rows
     # assign rating_id based on row # (see code in function below)
-    total_rows = 0
+    # total_rows = 0
 
     # Read u.data file and insert data
     for row in open("seed_data/u.data"):
         row = row.rstrip()
 
+
         movie_id, user_id, score, timestamp = row.split("\t")
         # print movie_id, user_id, score, timestamp
 
+        # NO NEED FOR AUTOINCREMENT
         # Increment total_rows by 1 based on each row that is looped on
-        total_rows += 1
+        # total_rows += 1
 
         # For each row, assign rating_id to row number (= total_rows)
-        rating_id = total_rows
+        # rating_id = total_rows
 
-        rating = Rating(rating_id=rating_id,
-                        movie_id=movie_id,
+        # NO NEED TO PASS THROUGH RATING_ID
+        # rating = Rating(rating_id=rating_id,
+        #                 movie_id=movie_id,
+        #                 user_id=user_id,
+        #                 score=score)
+
+        # No need to pass through rating_id into the object
+        # as model class autoincrements this field
+        # Above two functions pass through id as the id's are provided in the data
+        # But the above two functions' models still autoincrement so that new data 
+        # added autoincrements accordingly
+        rating = Rating(movie_id=movie_id,
                         user_id=user_id,
                         score=score)
 
