@@ -40,6 +40,12 @@ class Movie(db.Model):
     released_at = db.Column(db.DateTime, nullable=True)
     imdb_url = db.Column(db.String, nullable=False)
 
+    # Included repr method from solution
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Movie movie_id=%s title=%s>" % (self.movie_id, self.title)
+
 
 class Rating(db.Model):
     """Rating from rating website."""
@@ -63,6 +69,14 @@ class Rating(db.Model):
     #     db.session.execute(
     #         "INSERT INTO ratings VALUES (rating_id, movie_id, user_id, score)")
         # db.session.commit()
+
+    # Included repr method from solution
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Rating rating_id=%s movie_id=%s user_id=%s score=%s>" % (
+            self.rating_id, self.movie_id, self.user_id, self.score)
+
 ##############################################################################
 # Helper functions
 

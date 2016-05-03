@@ -59,6 +59,7 @@ def load_movies():
         # Then remove last six characterss for year and parentheses
         title = title.rstrip() 
         title = title.rstrip(title[-6:])
+        # or do title = title[:-7]
 
         released_str = movie_info[2]
 
