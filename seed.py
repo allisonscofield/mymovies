@@ -89,19 +89,38 @@ def load_ratings():
 
     print "Ratings"
 
+    # Delete all rows in table, so if we need to run this a second time,
+    # we won't be trying to add duplicate ratings by same user
     Rating.query.delete()
 
+    # PSUEDO CODE for rating_id
+    # total rows = 0
+    # loop through file, and for each row, add to total rows
+    # assign rating_id based on row # (see code in function below)
+    total_rows = 0
+
+    # Read u.data file and insert data
     for row in open("seed_data/u.data"):
         row = row.rstrip()
 
         movie_id, user_id, score, timestamp = row.split("\t")
         # print movie_id, user_id, score, timestamp
 
-        # NEED TO FIGURE OUT rating_id, to pass through object for instantiation
+        # Increment total_rows by 1 based on each row that is looped on
+        total_rows += 1
 
-    #     db.session.add(rating)
+        # For each row, assign rating_id to row number (= total_rows)
+        rating_id = total_rows
 
-    # db.session.commit()
+        rating = Rating(rating_id=rating_id,
+                        movie_id=movie_id,
+                        user_id=user_id,
+                        score=score)
+
+        db.session.add(rating)
+
+    db.session.commit()
+
 
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
@@ -125,5 +144,5 @@ if __name__ == "__main__":
     # Import different types of data
     load_users()
     load_movies()
-    # load_ratings()
+    load_ratings()
     set_val_user_id()
