@@ -56,12 +56,12 @@ class Rating(db.Model):
     # we need a class method and create a new object
     # need to insert sql into the python db.session.execute
     # ("INSERT INTO ratings Values(movie_id, user_id, score)")
-    @classmethod 
-    def make_rating(cls, movie_id, user_id, score):
-        """Insert rating into ratings table of database"""
+    # @classmethod 
+    # def make_rating(cls, movie_id, user_id, score):
+    #     """Insert rating into ratings table of database"""
 
-        db.session.execute(
-            "INSERT INTO ratings VALUES (rating_id, movie_id, user_id, score)")
+    #     db.session.execute(
+    #         "INSERT INTO ratings VALUES (rating_id, movie_id, user_id, score)")
         # db.session.commit()
 ##############################################################################
 # Helper functions
