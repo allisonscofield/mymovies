@@ -2,9 +2,9 @@
 
 from sqlalchemy import func
 from model import User
-# from model import Rating
-# from model import Movie
-
+from model import Rating
+from model import Movie
+import datetime
 from model import connect_to_db, db
 from server import app
 
@@ -37,10 +37,58 @@ def load_users():
 def load_movies():
     """Load movies from u.item into database."""
 
+    print "Movies"
+
+    # import pdb; pdb.set_trace()
+
+    Movie.query.delete()
+
+    for row in open("seed_data/u.item"):
+        row = row.rstrip()
+
+        movie_info = row.split("|")
+        movie_id = movie_info[0]
+        title = movie_info[1]
+        title = title.rstrip() 
+        # Had to first remove the white space at the end of the string
+        title = title.rstrip(title[-6:])
+        # Removed last six characters to get rid of year and parathesis
+        released_str = movie_info[2]
+        imdb_url = movie_info[4]
+
+        if released_str:
+            released_at = datetime.datetime.strptime(released_str, "%d-%b-%Y")
+        else:
+            released_at = None
+        # print released_at
+        # print movie_id, title
+
+        movie = Movie(movie_id=movie_id,
+                      title=title,
+                      released_at=released_at,
+                      imdb_url=imdb_url)
+
+        db.session.add(movie)
+
+    db.session.commit()
+
 
 def load_ratings():
     """Load ratings from u.data into database."""
 
+    print "Ratings"
+
+    # Rating.query.delete()
+
+    for row in open("seed_data/u.data"):
+        row = row.rstrip()
+
+        movie_id, user_id, score, timestamp = row.split("\t")
+        print movie_id, user_id, score, timestamp
+
+    #     db.session.add(rating)
+
+    # db.session.commit()
 
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
@@ -64,5 +112,5 @@ if __name__ == "__main__":
     # Import different types of data
     load_users()
     load_movies()
-    load_ratings()
+    # load_ratings()
     set_val_user_id()
