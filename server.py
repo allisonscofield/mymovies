@@ -33,6 +33,36 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 
+@app.route("/sign-in", methods=["GET"])
+def sign_in_form():
+    """Show sign-in form that asks for username and password."""
+
+    return render_template("sign_in.html")
+
+
+@app.route("/sign-in", methods=["POST"])
+def check_user_status():
+    """Check if user in database."""
+
+    # Username is email, as user_id autoincrements when user is added to database
+    email = request.form.get("email")
+    password =  request.form.get("password")
+
+    # How to check if email is in our user database
+    db.session.query(User).filter(User.email == email).one()
+
+    # if username in User.user_id:
+    # then log user in
+    #     flash("Login successful.")
+
+
+
+    # if username not in User
+    #     flash("No such user exists. New account created.")
+    # add user into database
+
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
