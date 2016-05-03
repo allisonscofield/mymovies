@@ -41,25 +41,36 @@ def load_movies():
 
     # import pdb; pdb.set_trace()
 
+    # Delete all rows in table, so if we need to run this a second time,
+    # we won't be trying to add duplicate movies
     Movie.query.delete()
 
+    # Read u.item file and insert data
     for row in open("seed_data/u.item"):
         row = row.rstrip()
 
         movie_info = row.split("|")
+
+        # Get information on movie_id, title, release_at, imdb_url
         movie_id = movie_info[0]
         title = movie_info[1]
-        title = title.rstrip() 
-        # Had to first remove the white space at the end of the string
-        title = title.rstrip(title[-6:])
-        # Removed last six characters to get rid of year and parathesis
-        released_str = movie_info[2]
-        imdb_url = movie_info[4]
 
+        # Remove white space at end of string
+        # Then remove last six characterss for year and parentheses
+        title = title.rstrip() 
+        title = title.rstrip(title[-6:])
+
+        released_str = movie_info[2]
+
+        # Convert string to datetime object
         if released_str:
             released_at = datetime.datetime.strptime(released_str, "%d-%b-%Y")
         else:
             released_at = None
+
+        imdb_url = movie_info[4]
+
+        
         # print released_at
         # print movie_id, title
 
