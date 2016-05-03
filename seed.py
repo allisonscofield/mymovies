@@ -78,13 +78,15 @@ def load_ratings():
 
     print "Ratings"
 
-    # Rating.query.delete()
+    Rating.query.delete()
 
     for row in open("seed_data/u.data"):
         row = row.rstrip()
 
         movie_id, user_id, score, timestamp = row.split("\t")
-        print movie_id, user_id, score, timestamp
+        # print movie_id, user_id, score, timestamp
+
+        # NEED TO FIGURE OUT rating_id, to pass through object for instantiation
 
     #     db.session.add(rating)
 
