@@ -48,7 +48,6 @@ def check_user_status():
     email = request.form.get("email")
     password =  request.form.get("password")
 
-
     # Check if user exists in database based on email
     # If not, add user to database
     if db.session.query(User).filter(User.email == email).first():
@@ -59,7 +58,43 @@ def check_user_status():
         return redirect("homepage.html")
 
 # NEED TO DO FLASH MESSAGES FOR LOGIN SUCCESS/NOT
+@app.route("/log-in", methods=["GET"])
+def log_in_form():
+    """Show log-in form that asks for username and password."""
 
+    return render_template("login_form.html")
+
+
+@app.route("/log-in", methods=["POST"])
+def check_user_password_match():
+    """Check if user password matches against user email."""
+
+    # Username is email, as user_id autoincrements when user is added to database
+    email = request.form.get("email")
+    password =  request.form.get("password")
+
+    # we want to check user password against user email 
+    # if matches then user login redirects to homepage
+    # else user gets flash message that says incorrect password
+
+    # if user email and password matches we redirct them to the homepage
+    # if not we redirect them back to the login page
+    if db.session.query(User).filter(User.email == email, User.password == password).first():
+        session["logged_in_user_email"] = email
+        flash("Login SUCCESS.")
+        return redirect("/")
+    else:
+        flash("Incorrect password. Please try again!")
+        return redirect("/log-in")
+
+
+@app.route("/log-out")
+def process_logout():
+    """Log user out."""
+
+    del session["logged_in_user_email"]
+    flash("Logged out.")
+    return redirect("/")
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
