@@ -87,7 +87,7 @@ def signup_login():
             return redirect("/signup-login")
 
 
-@app.route("/log-out")
+@app.route("/logout")
 def process_logout():
     """Log user out."""
 
