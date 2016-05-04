@@ -49,18 +49,19 @@ def check_user_status():
     password =  request.form.get("password")
 
     # How to check if email is in our user database
-    db.session.query(User).filter(User.email == email).one()
+     # db.session.query(User).filter(User.email == email).one()
 
     # if username in User.user_id:
     # then log user in
     #     flash("Login successful.")
+    
+    db.session.add(User(email= "jessica@gmail.com", password = "abc123"))
 
-
-
+    db.session.commit()
     # if username not in User
     #     flash("No such user exists. New account created.")
     # add user into database
-
+    return redirect("homepage.html")
 
 
 if __name__ == "__main__":
