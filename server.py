@@ -33,59 +33,58 @@ def user_list():
     return render_template("user_list.html", users=users)
 
 
-@app.route("/sign-in", methods=["GET"])
-def sign_in_form():
-    """Show sign-in form that asks for username and password."""
+@app.route("/signup-login", methods=["GET"])
+def show_forms():
+    """Show signup and login forms."""
 
-    return render_template("sign_in.html")
+    return render_template("signup_login.html")
 
 
-@app.route("/sign-in", methods=["POST"])
-def check_user_status():
-    """Check if user in database."""
+@app.route("/signup-login", methods=["POST"])
+def signup_login():
+    """Based on the form, direct user accordingly."""
 
-    # Username is email, as user_id autoincrements when user is added to database
-    email = request.form.get("email")
-    password =  request.form.get("password")
+    # Get values from signup form
+    signup_email = request.form.get("signup_email")
+    signup_password = request.form.get("signup_password")
 
-    # Check if user exists in database based on email
-    # If not, add user to database
-    if db.session.query(User).filter(User.email == email).first():
-        return redirect("homepage.html")
+    # Get values from login form
+    login_email = request.form.get("login_email")
+    login_password = request.form.get("login_password")
+    
+    # If user uses the signup form, check if user exists in database
+    # If user exists, ask them to log in
+    # Otherwise, add user into database and log them in, redirecting to homepage
+    if signup_email: 
+        if db.session.query(User).filter(User.email == signup_email).first():
+            flash("You already have an account please use login!")
+            return redirect("/signup-login")
+        else:
+            db.session.add(User(email= signup_email, password = signup_password))
+            db.session.commit()
+            
+            session["logged_in_user_email"] = signup_email
+            
+            flash("Your account has been created! You now are logged in!")
+           
+            return redirect("/")
+
+    # If user uses login form, check that email and password matches to log them in,
+    # redirecting them to homepage
+    # Otherwise, ask them to log in with the correct password
     else:
-        db.session.add(User(email= email, password = password))
-        db.session.commit()
-        return redirect("homepage.html")
-
-# NEED TO DO FLASH MESSAGES FOR LOGIN SUCCESS/NOT
-@app.route("/log-in", methods=["GET"])
-def log_in_form():
-    """Show log-in form that asks for username and password."""
-
-    return render_template("login_form.html")
-
-
-@app.route("/log-in", methods=["POST"])
-def check_user_password_match():
-    """Check if user password matches against user email."""
-
-    # Username is email, as user_id autoincrements when user is added to database
-    email = request.form.get("email")
-    password =  request.form.get("password")
-
-    # we want to check user password against user email 
-    # if matches then user login redirects to homepage
-    # else user gets flash message that says incorrect password
-
-    # if user email and password matches we redirct them to the homepage
-    # if not we redirect them back to the login page
-    if db.session.query(User).filter(User.email == email, User.password == password).first():
-        session["logged_in_user_email"] = email
-        flash("Login SUCCESS.")
-        return redirect("/")
-    else:
-        flash("Incorrect password. Please try again!")
-        return redirect("/log-in")
+        if db.session.query(User).filter(User.email == login_email, 
+                                         User.password == login_password).first():
+            
+            session["logged_in_user_email"] = login_email
+            
+            flash("Login SUCCESS.")
+            
+            return redirect("/")
+       
+        else:
+            flash("Incorrect password. Please try again!")
+            return redirect("/signup-login")
 
 
 @app.route("/log-out")
@@ -93,7 +92,9 @@ def process_logout():
     """Log user out."""
 
     del session["logged_in_user_email"]
+    
     flash("Logged out.")
+    
     return redirect("/")
 
 if __name__ == "__main__":
