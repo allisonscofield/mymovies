@@ -54,9 +54,10 @@ def check_user_status():
     # if username in User.user_id:
     # then log user in
     #     flash("Login successful.")
-    
-    db.session.add(User(email= "jessica@gmail.com", password = "abc123"))
 
+    #add user to database
+
+    db.session.add(User(email= email, password = password))
     db.session.commit()
     # if username not in User
     #     flash("No such user exists. New account created.")
