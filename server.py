@@ -167,8 +167,15 @@ def movie_profile(movie_id):
     # Query by movie id to return that record in database about movie info
     movie = Movie.query.filter(Movie.movie_id == movie_id).one()
 
+    # Query to get all ratings for a specific movie
+    # Needed to join Rating and Movie tables and filter by user id
+    # Sort movie titles alphabetically
+    ratings = db.session.query(Rating.movie_id, 
+                                Rating.score,
+                                Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
+
     # Passed user info into jinja and called on its attributes
-    return render_template("movie_profile.html", movie=movie)
+    return render_template("movie_profile.html", movie=movie, ratings=ratings)
 
 
 if __name__ == "__main__":

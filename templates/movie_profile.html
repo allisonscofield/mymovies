@@ -7,7 +7,22 @@
         <li>Title: {{ movie.title }}</li>        
         <li>Released Date: {{movie.released_at}}</li>
         <li>IMDB: <a href="{{movie.imdb_url}}">IMDB</a> </li>
-        
+
     </ul>
+
+    <h2>Ratings</h2>
+    <table>
+        <tr>
+            <td><b><u>Score</u></b></td>
+        </tr>
+
+        {% for rating in ratings %}
+        <tr>
+            <td>{{ rating.score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- WANT TO TALLY SCORES, count all the 5's, 4's, etc. and provide average -->
 
 {% endblock %}
