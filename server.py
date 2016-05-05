@@ -27,10 +27,12 @@ def index():
 
 @app.route("/users")
 def user_list():
- """Show list of users."""
+    """Show list of users."""
 
- users = User.query.all()
- return render_template("user_list.html", users=users)
+    users = User.query.all()
+
+    return render_template("user_list.html", users=users)
+
 
 # This takes to each user's profile from user list
 @app.route("/users/<int:user_id>")
@@ -135,6 +137,18 @@ def process_logout():
     flash("Logged out.")
     
     return redirect("/")
+
+
+@app.route("/movies")
+def movie_list():
+    """Show list of movies."""
+
+    # sort movie titles alphbetically
+    movies = Movie.query.order_by(Movie.title).all()
+    
+    return render_template("movie_list.html", movies=movies)
+
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
