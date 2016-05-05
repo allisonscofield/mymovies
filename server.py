@@ -40,51 +40,53 @@ def show_forms():
     return render_template("signup_login.html")
 
 
-@app.route("/signup-login", methods=["POST"])
-def signup_login():
-    """Based on the form, direct user accordingly."""
+@app.route("/signup", methods=["POST"])
+def signup():
+    """Check if user exists in database, otherwise add user to database."""
 
     # Get values from signup form
     signup_email = request.form.get("signup_email")
     signup_password = request.form.get("signup_password")
 
+    # If user exists, ask them to log in
+    # Otherwise, add user into database and log them in, redirecting to homepage
+    if db.session.query(User).filter(User.email == signup_email).first():
+        flash("You already have an account please use login!")
+        return redirect("/signup-login")
+
+    else:
+        db.session.add(User(email= signup_email, password = signup_password))
+        db.session.commit()
+        
+        session["logged_in_user_email"] = signup_email
+        
+        flash("Your account has been created! You now are logged in!")
+       
+        return redirect("/")
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    """Check if user's email matches password, otherwise ask user to try again."""
+    
     # Get values from login form
     login_email = request.form.get("login_email")
     login_password = request.form.get("login_password")
-    
-    # If user uses the signup form, check if user exists in database
-    # If user exists, ask them to log in
-    # Otherwise, add user into database and log them in, redirecting to homepage
-    if signup_email: 
-        if db.session.query(User).filter(User.email == signup_email).first():
-            flash("You already have an account please use login!")
-            return redirect("/signup-login")
-        else:
-            db.session.add(User(email= signup_email, password = signup_password))
-            db.session.commit()
-            
-            session["logged_in_user_email"] = signup_email
-            
-            flash("Your account has been created! You now are logged in!")
-           
-            return redirect("/")
 
-    # If user uses login form, check that email and password matches to log them in,
-    # redirecting them to homepage
+    # If user's email and password matches, log them in, redirecting them to homepage
     # Otherwise, ask them to log in with the correct password
+    if db.session.query(User).filter(User.email == login_email, 
+                                     User.password == login_password).first():
+        
+        session["logged_in_user_email"] = login_email
+        
+        flash("Login SUCCESS.")
+        
+        return redirect("/")
+
     else:
-        if db.session.query(User).filter(User.email == login_email, 
-                                         User.password == login_password).first():
-            
-            session["logged_in_user_email"] = login_email
-            
-            flash("Login SUCCESS.")
-            
-            return redirect("/")
-       
-        else:
-            flash("Incorrect password. Please try again!")
-            return redirect("/signup-login")
+        flash("Incorrect password. Please try again!")
+        return redirect("/signup-login")
 
 
 @app.route("/logout")
