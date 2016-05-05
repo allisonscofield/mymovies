@@ -44,13 +44,16 @@ def user_profile(user_id):
 
     # import pdb; pdb.set_trace()
 
-    # we want to get all movies and scores rated by this user
+    # Query to get all movies and scores rated by this user
+    # Needed to join Rating and Movie tables and filter by user id
+    # Sort movie titles alphabetically
     user_movies = db.session.query(Rating.user_id, 
                                 Rating.movie_id, 
                                 Rating.score,
-                                Movie.title).join(Movie).filter(Rating.user_id == user_id).all()
+                                Movie.title).join(Movie).filter(Rating.user_id == user_id).order_by(Movie.title).all()
 
     # Passed user info into jinja and called on its attributes
+    # Passed user_movies into jinja and called on its attributes to get the info
     return render_template("user_profile.html", user=user, user_movies = user_movies)
 
 
