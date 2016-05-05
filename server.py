@@ -27,21 +27,40 @@ def index():
 
 @app.route("/users")
 def user_list():
+ """Show list of users."""
+
+ users = User.query.all()
+ return render_template("user_list.html", users=users)
+
+# This takes to each user's profile from user list
+@app.route("/users/<int:user_id>")
+def user_profile(user_id):
     """Show user information"""
 
-    import pdb; pdb.set_trace()
+    # Query by user id to return that record in database about user info
+    user = User.query.filter(User.user_id == user_id).one()
 
-    # Get user email to query in User database and get all info about the user
-    email = session["logged_in_user_email"]
-    user = User.query.filter(User.email == email).one()
+    # Passed user info into jinja and called on its attributes
+    return render_template("user_profile.html", user=user)
 
-    # # Test code to see attributes of user object
-    # user_id = user.user_id
-    # age = user.age
-    # zipcode = user.zipcode
 
-    return render_template("user_list.html", user=user)
+# # THIS WORKS, but we want to use /user/<int:user_id>, which we figured out above!!
+# @app.route("/user-profile")
+# def user_profile():
+#     """Show user information"""
 
+#     # import pdb; pdb.set_trace()
+
+#     # Get user email to query in User database and get all info about the user
+#     email = session["logged_in_user_email"]
+#     user = User.query.filter(User.email == email).one()
+
+#     # # Test code to see attributes of user object
+#     # user_id = user.user_id
+#     # age = user.age
+#     # zipcode = user.zipcode
+
+#     return render_template("user_profile.html", user=user)
 
 
 @app.route("/signup-login", methods=["GET"])
@@ -91,9 +110,16 @@ def login():
         
         session["logged_in_user_email"] = login_email
         
-        flash("Login SUCCESS.")
-        
-        return redirect("/")
+        flash("Login SUCCESS.")        
+
+        # Query to get user's user id, in order to redirect user to their user profile
+        user = User.query.filter(User.email == login_email).one()
+        user_id = user.user_id
+
+        # Pass a variable through a string via string formatting
+        # so we can pass user_id into the redirected route, which is a string!!
+        return redirect("/users/%s" % user_id)
+        # return redirect("/")
 
     else:
         flash("Incorrect password. Please try again!")
