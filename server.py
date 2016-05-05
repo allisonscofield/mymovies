@@ -42,8 +42,16 @@ def user_profile(user_id):
     # Query by user id to return that record in database about user info
     user = User.query.filter(User.user_id == user_id).one()
 
+    # import pdb; pdb.set_trace()
+
+    # we want to get all movies and scores rated by this user
+    user_movies = db.session.query(Rating.user_id, 
+                                Rating.movie_id, 
+                                Rating.score,
+                                Movie.title).join(Movie).filter(Rating.user_id == user_id).all()
+
     # Passed user info into jinja and called on its attributes
-    return render_template("user_profile.html", user=user)
+    return render_template("user_profile.html", user=user, user_movies = user_movies)
 
 
 # # THIS WORKS, but we want to use /user/<int:user_id>, which we figured out above!!
@@ -145,9 +153,19 @@ def movie_list():
 
     # sort movie titles alphbetically
     movies = Movie.query.order_by(Movie.title).all()
-    
+
     return render_template("movie_list.html", movies=movies)
 
+
+@app.route("/movies/<int:movie_id>")
+def movie_profile(movie_id):
+    """Show movie information"""
+
+    # Query by movie id to return that record in database about movie info
+    movie = Movie.query.filter(Movie.movie_id == movie_id).one()
+
+    # Passed user info into jinja and called on its attributes
+    return render_template("movie_profile.html", movie=movie)
 
 
 if __name__ == "__main__":
