@@ -27,10 +27,21 @@ def index():
 
 @app.route("/users")
 def user_list():
-    """Show list of users."""
+    """Show user information"""
 
-    users = User.query.all()
-    return render_template("user_list.html", users=users)
+    import pdb; pdb.set_trace()
+
+    # Get user email to query in User database and get all info about the user
+    email = session["logged_in_user_email"]
+    user = User.query.filter(User.email == email).one()
+
+    # # Test code to see attributes of user object
+    # user_id = user.user_id
+    # age = user.age
+    # zipcode = user.zipcode
+
+    return render_template("user_list.html", user=user)
+
 
 
 @app.route("/signup-login", methods=["GET"])
