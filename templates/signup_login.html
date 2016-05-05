@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>Sign Up</h2>
+    
+    <form action="/signup" method="POST">
+
+      <label>Email Address: 
+        <input type="text" name="signup_email">
+      </label>
+      <br>
+      <br>
+      <label>Password:
+        <input type="text" name="signup_password">
+      </label>
+      <br>
+      <br>
+      <input type="submit" value="Sign up">
+
+    </form>
+
+    <h2>Log In</h2>
+    
+    <form action="/login" method="POST">
+
+      <label>Email Address: 
+        <input type="text" name="login_email">
+      </label>
+      <br>
+      <br>
+      <label>Password:
+        <input type="text" name="login_password">
+      </label>
+      <br>
+      <br>
+      <input type="submit" value="Log in">
+
+    </form>
+
+{% endblock %}

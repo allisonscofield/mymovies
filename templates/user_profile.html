@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>User Profile</h2>
+    <ul>
+        <li>
+            <a href="/users/{{ user.user_id }}">
+              User ID: {{ user.user_id }} <br>
+              Email: {{ user.email }} <br>
+              Age: {{user.age}} <br>
+              Zip code: {{user.zipcode}})
+            </a>
+        </li>
+    </ul>
+
+{% endblock %}
