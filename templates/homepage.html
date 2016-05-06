@@ -9,4 +9,13 @@
 <h2>Users</h2>
 <p><a href="/users">View all users</a></p>
 
+
+<!-- Show user profile if user is logged in -->
+{% if session.get('logged_in_user_email') %}
+    <h2>User Profile</h2>
+    <a href="/users/{{user.user_id}}">View Profile</a>
+{% endif %}
+
+
+
 {% endblock %}

@@ -24,7 +24,18 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Homepage."""
 
-    return render_template("homepage.html")
+    # We want user profile link to show if user is logged in and clicks on homepage
+
+    # Check if logged in and get the value or else return None
+    # If there is a value, query to get user information so that user.user_id can be accessed in jinja
+    # Else, pass None value through so that if statement in jinja not executed
+    user_email = session.get("logged_in_user_email", None)
+    if user_email is not None:
+        user = User.query.filter(User.email == user_email).one()
+        return render_template("homepage.html", user=user)
+
+    else:
+        return render_template("homepage.html", user=None)
 
 
 @app.route("/users")
@@ -192,11 +203,35 @@ def movie_profile(movie_id):
     return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
 
 
-@app.route("/rate-movie")
-def rate_movie():
+@app.route("/movies/<int:movie_id>/rate-movie")
+def rate_movie(movie_id):
     """Get user rating score for movie"""
 
     user_rating = request.args.get("user_rating")
+    # get user id from log in email address
+    user_email = session["logged_in_user_email"]
+
+    user = User.query.filter(User.email == user_email).one()
+
+#     # # Test code to see attributes of user object
+    user_id = user.user_id
+    # CHeck user rating in database to see if user has rated movie before
+
+    # If user has a rating we are updating it
+    # else we are adding a new rating
+
+    if db.session.query(Rating).filter(User.email == user_email).first():
+        flash("You already have an account please use login!")
+        return redirect("/signup-login")
+
+    else:
+        db.session.add(Rating(movie_id=movie_id, user_id=user_id, score=user_rating))
+        db.session.commit()
+        
+        flash("You have rated this movie a %s" % (user_rating))
+       
+        return redirect("/")
+
 
     # Get user rating routed correctly, as this was just test code
     # Fix label format for movie profile page

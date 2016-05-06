@@ -49,7 +49,7 @@
     </table> -->
     <br><br>
     {% if session.get('logged_in_user_email') %}
-    <form action="/rate-movie">
+    <form action="/movies/{{ movie.movie_id }}/rate-movie">
         <!-- Double check label format for drop down selection -->
         <label><b>Rate This Movie:</b></label>
         <select name="user_rating">
