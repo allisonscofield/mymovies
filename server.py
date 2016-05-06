@@ -4,7 +4,7 @@ from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from sqlalchemy import func
+from sqlalchemy import func, update
 
 
 from model import User, Rating, Movie, connect_to_db, db
@@ -213,24 +213,29 @@ def rate_movie(movie_id):
 
     user = User.query.filter(User.email == user_email).one()
 
-#     # # Test code to see attributes of user object
     user_id = user.user_id
-    # CHeck user rating in database to see if user has rated movie before
 
-    # If user has a rating we are updating it
-    # else we are adding a new rating
+    # Check if user rating exists in database
+    # If user has rated this movie before, update value
+    # Else, add user rating to database by movie id and user id
+    if db.session.query(Rating.score).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).all():
+        # When updating a value, we need to use the key-value pair in update()
+        db.session.query(Rating).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).update({"score": user_rating})
 
-    if db.session.query(Rating).filter(User.email == user_email).first():
-        flash("You already have an account please use login!")
-        return redirect("/signup-login")
+
+        # db.session.query(Rating).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).update(Rating.score == user_rating)
+        db.session.commit()
+
+        flash("You have rated this movie before! It has now been updated to %s." % (user_rating))
+        return redirect("/users/%s" % user_id)
 
     else:
         db.session.add(Rating(movie_id=movie_id, user_id=user_id, score=user_rating))
         db.session.commit()
         
-        flash("You have rated this movie a %s" % (user_rating))
+        flash("You have rated this movie a %s." % (user_rating))
        
-        return redirect("/")
+        return redirect("/users/%s" % user_id)
 
 
     # Get user rating routed correctly, as this was just test code
