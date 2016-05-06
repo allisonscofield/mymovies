@@ -100,7 +100,7 @@ def signup():
         return redirect("/signup-login")
 
     else:
-        db.session.add(User(email= signup_email, password = signup_password))
+        db.session.add(User(email=signup_email, password=signup_password))
         db.session.commit()
         
         session["logged_in_user_email"] = signup_email
@@ -198,11 +198,10 @@ def rate_movie():
 
     user_rating = request.args.get("user_rating")
 
-    # Fix html file name
     # Get user rating routed correctly, as this was just test code
     # Fix label format for movie profile page
 
-    return render_template("rate_moving.html", user_rating=user_rating)
+    return render_template("rate_movie.html", user_rating=user_rating)
 
 
 

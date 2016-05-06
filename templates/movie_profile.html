@@ -25,8 +25,14 @@
         {% endfor %}
     </table>
     <br>
-    <b>Average Rating:</b> {{ "{:.2f}".format(avg_rating) }}
-
+    <!-- Page breaks if movie has no ratings for the variable avg_rating to use string formatting
+    for two decimal places - Needed if/else statements-->
+    <b>Average Rating:</b> 
+    {% if avg_rating %}
+        {{ "{:.2f}".format(avg_rating) }} 
+    {% else %}
+        {{avg_rating}}
+    {% endif %}
     <!-- Below code shows all rating scores -->
 <!-- 
     <h2>Ratings</h2>
@@ -42,7 +48,7 @@
         {% endfor %}
     </table> -->
     <br><br>
-
+    {% if session.get('logged_in_user_email') %}
     <form action="/rate-movie">
         <!-- Double check label format for drop down selection -->
         <label><b>Rate This Movie:</b></label>
@@ -56,6 +62,6 @@
 
         <input type="submit">
     </form>
-
+    {% endif %}
 
 {% endblock %}
