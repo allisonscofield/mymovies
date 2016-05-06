@@ -24,7 +24,10 @@
         </tr>
         {% endfor %}
     </table>
+    <br>
+    <b>Average Rating:</b> {{ "{:.2f}".format(avg_rating) }}
 
+    <!-- Below code shows all rating scores -->
 <!-- 
     <h2>Ratings</h2>
     <table>
@@ -39,6 +42,5 @@
         {% endfor %}
     </table> -->
 
-    <!-- WANT TO TALLY SCORES, count all the 5's, 4's, etc. and provide average -->
 
 {% endblock %}

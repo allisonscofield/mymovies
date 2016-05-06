@@ -177,6 +177,9 @@ def movie_profile(movie_id):
     ordered_movies = unordered_ratings.order_by(Rating.score)
     count_score = ordered_movies.all()
 
+    # Get average score, which returns a tuple-like object, so need to access index 0 to return the number and pass through jinja
+    avg_rating = db.session.query(func.avg(Rating.score)).filter(Rating.movie_id == movie_id).one()
+
     # Query to get all ratings for a specific movie
     # Needed to join Rating and Movie tables and filter by user id
     # Sort movie titles alphabetically
@@ -185,8 +188,8 @@ def movie_profile(movie_id):
                                Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
 
     # Pass user info into jinja and called on its attributes
-    # Pass count_score and ratings into jinja
-    return render_template("movie_profile.html", movie=movie, count_score=count_score, ratings=ratings)
+    # Pass count_score, avg_rating, and ratings into jinja
+    return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
 
 
 if __name__ == "__main__":
