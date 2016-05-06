@@ -192,6 +192,20 @@ def movie_profile(movie_id):
     return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
 
 
+@app.route("/rate-movie")
+def rate_movie():
+    """Get user rating score for movie"""
+
+    user_rating = request.args.get("user_rating")
+
+    # Fix html file name
+    # Get user rating routed correctly, as this was just test code
+    # Fix label format for movie profile page
+
+    return render_template("rate_moving.html", user_rating=user_rating)
+
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
