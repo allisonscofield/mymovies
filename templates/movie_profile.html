@@ -13,6 +13,22 @@
     <h2>Ratings</h2>
     <table>
         <tr>
+            <td><b><u>Rating Score</u></b></td>
+            <td><b><u>Number of Votes</u></b></td>
+        </tr>
+
+        {% for score, count in count_score %}
+        <tr>
+            <td>{{ score }}</td>
+            <td>{{ count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+<!-- 
+    <h2>Ratings</h2>
+    <table>
+        <tr>
             <td><b><u>Score</u></b></td>
         </tr>
 
@@ -21,7 +37,7 @@
             <td>{{ rating.score }}</td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
 
     <!-- WANT TO TALLY SCORES, count all the 5's, 4's, etc. and provide average -->
 

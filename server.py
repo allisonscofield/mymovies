@@ -4,6 +4,8 @@ from jinja2 import StrictUndefined
 
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy import func
+
 
 from model import User, Rating, Movie, connect_to_db, db
 
@@ -167,15 +169,24 @@ def movie_profile(movie_id):
     # Query by movie id to return that record in database about movie info
     movie = Movie.query.filter(Movie.movie_id == movie_id).one()
 
+    # import pdb; pdb.set_trace()
+
+    # Tallies score of each rating (how many people rated this score per rating)
+    # Returns list of tuples for count_score
+    unordered_ratings = db.session.query(Rating.score, func.count(Rating.score)).filter(Rating.movie_id == movie_id).group_by(Rating.score)
+    ordered_movies = unordered_ratings.order_by(Rating.score)
+    count_score = ordered_movies.all()
+
     # Query to get all ratings for a specific movie
     # Needed to join Rating and Movie tables and filter by user id
     # Sort movie titles alphabetically
     ratings = db.session.query(Rating.movie_id, 
-                                Rating.score,
-                                Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
+                               Rating.score,
+                               Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
 
-    # Passed user info into jinja and called on its attributes
-    return render_template("movie_profile.html", movie=movie, ratings=ratings)
+    # Pass user info into jinja and called on its attributes
+    # Pass count_score and ratings into jinja
+    return render_template("movie_profile.html", movie=movie, count_score=count_score, ratings=ratings)
 
 
 if __name__ == "__main__":
