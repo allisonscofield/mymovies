@@ -106,7 +106,11 @@ def load_ratings():
         row = row.rstrip()
 
 
-        movie_id, user_id, score, timestamp = row.split("\t")
+        user_id, movie_id, score, timestamp = row.split("\t")
+
+        user_id = int(user_id)
+        movie_id = int(movie_id)
+        score = int(score)
         # print movie_id, user_id, score, timestamp
 
         # NO NEED FOR AUTOINCREMENT
@@ -127,8 +131,8 @@ def load_ratings():
         # Above two functions pass through id as the id's are provided in the data
         # But the above two functions' models still autoincrement so that new data 
         # added autoincrements accordingly
-        rating = Rating(movie_id=movie_id,
-                        user_id=user_id,
+        rating = Rating(user_id=user_id,
+                        movie_id=movie_id,
                         score=score)
 
         db.session.add(rating)

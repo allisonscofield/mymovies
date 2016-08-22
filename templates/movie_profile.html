@@ -37,7 +37,11 @@
     {% if prediction %}
         <p>We predict you will rate this movie {{ prediction }}</p>
     {% endif %}
-    
+
+    {% if beratement %}
+        <p>{{ beratement }}</p>
+    {% endif %}
+
     <!-- Below code shows all rating scores -->
 <!-- 
     <h2>Ratings</h2>
