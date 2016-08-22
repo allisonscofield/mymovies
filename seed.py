@@ -58,7 +58,8 @@ def load_movies():
         # Remove white space at end of string
         # Then remove last six characterss for year and parentheses
         title = title.rstrip() 
-        title = title.rstrip(title[-6:])
+        title = title[:-7]
+        # title = title.rstrip(title[-6:])
         # or do title = title[:-7]
 
         released_str = movie_info[2]
@@ -153,6 +154,40 @@ def set_val_user_id():
     db.session.commit()
 
 
+def make_wizard():
+    """Make wizard in database."""
+
+    wizard = User(email="wizard@gmail.com", password="wizard", age=None, zipcode=None)
+    db.session.add(wizard)
+    db.session.commit()
+
+
+def give_wizard_ratings():
+    """Give the wizard some movie ratings for beratement messages to show."""
+
+    wizard = User.query.filter_by(email="wizard@gmail.com").one()
+
+    r1 = Rating(user_id=wizard.user_id, movie_id=1, score=1)
+    db.session.add(r1)
+
+    r2 = Rating(user_id=wizard.user_id, movie_id=1274, score=5)
+    db.session.add(r2)
+
+    r3 = Rating(user_id=wizard.user_id, movie_id=373, score=5)
+    db.session.add(r3)
+
+    r4 = Rating(user_id=wizard.user_id, movie_id=314, score=5)
+    db.session.add(r4)
+
+    r5 = Rating(user_id=wizard.user_id, movie_id=95, score=1)
+    db.session.add(r5)
+
+    r6 = Rating(user_id=wizard.user_id, movie_id=71, score=1)
+    db.session.add(r6)
+
+    db.session.commit()
+
+
 if __name__ == "__main__":
     connect_to_db(app)
 
@@ -164,3 +199,5 @@ if __name__ == "__main__":
     load_movies()
     load_ratings()
     set_val_user_id()
+    make_wizard()
+    give_wizard_ratings()
