@@ -173,14 +173,26 @@ def movie_list():
     return render_template("movie_list.html", movies=movies)
 
 
-@app.route("/movies/<int:movie_id>")
+@app.route("/movies/<int:movie_id>", methods=['GET'])
 def movie_profile(movie_id):
-    """Show movie information"""
+    """Show movie information.
+
+    If a user is logged in, let them add/edit a rating.
+    """
+
+    # import pdb; pdb.set_trace();
 
     # Query by movie id to return that record in database about movie info
-    movie = Movie.query.filter(Movie.movie_id == movie_id).one()
+    # movie = Movie.query.filter(Movie.movie_id == movie_id).one()
+    movie = Movie.query.get(movie_id)
 
-    # import pdb; pdb.set_trace()
+    user = User.query.filter(User.email == session.get("logged_in_user_email")).one()
+    user_id = user.user_id
+
+    if user_id:
+        user_rating = Rating.query.filter_by(movie_id=movie_id, user_id=user_id).first()
+    else:
+        user_rating = None
 
     # Tallies score of each rating (how many people rated this score per rating)
     # Returns list of tuples for count_score
@@ -191,16 +203,33 @@ def movie_profile(movie_id):
     # Get average score, which returns a tuple-like object, so need to access index 0 to return the number and pass through jinja
     avg_rating = db.session.query(func.avg(Rating.score)).filter(Rating.movie_id == movie_id).one()
 
+    # Prediction code: only predict if the user hasn't rated it
+    prediction = None
+
+    if (not user_rating) and user_id:
+        user = User.query.get(user_id)
+        if user:
+            prediction = user.predict_rating(movie)
+
     # Query to get all ratings for a specific movie
     # Needed to join Rating and Movie tables and filter by user id
     # Sort movie titles alphabetically
-    ratings = db.session.query(Rating.movie_id, 
+    ratings = db.session.query(Rating.movie_id,
                                Rating.score,
                                Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
 
-    # Pass user info into jinja and called on its attributes
-    # Pass count_score, avg_rating, and ratings into jinja
-    return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
+    # # Pass user info into jinja and called on its attributes
+    # # Pass count_score, avg_rating, and ratings into jinja
+    # return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
+
+    return render_template(
+        "movie_profile.html",
+        movie=movie,
+        user_rating=user_rating,
+        avg_rating=avg_rating[0],
+        count_score=count_score,
+        prediction=prediction,
+        ratings=ratings)
 
 
 @app.route("/movies/<int:movie_id>/rate-movie")
@@ -221,7 +250,6 @@ def rate_movie(movie_id):
     if db.session.query(Rating.score).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).all():
         # When updating a value, we need to use the key-value pair in update()
         db.session.query(Rating).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).update({"score": user_rating})
-
 
         # db.session.query(Rating).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).update(Rating.score == user_rating)
         db.session.commit()

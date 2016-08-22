@@ -33,6 +33,11 @@
     {% else %}
         {{avg_rating}}
     {% endif %}
+
+    {% if prediction %}
+        <p>We predict you will rate this movie {{ prediction }}</p>
+    {% endif %}
+    
     <!-- Below code shows all rating scores -->
 <!-- 
     <h2>Ratings</h2>
