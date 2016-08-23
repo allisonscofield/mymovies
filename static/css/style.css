@@ -1712,6 +1712,14 @@ a:hover {
 	color: #FFFFFF;
 }
 
+.footer-names {
+	color: #FFFFFF;	
+}
+
+.footer-names li {
+	list-style-type: none;
+}
+
 .copy p {
 	color: #3f444e;
 }
@@ -1745,3 +1753,4 @@ a:hover {
 .rate-padding {
 	padding-top: 5px;
 }
+

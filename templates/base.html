@@ -7,19 +7,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>MyMovies: Find movies you love and compare your ratings with the Wizard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="MyMovies: Find movies you love and compare your ratings with the Wizard" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<link rel="icon" href="/static/images/clapper_board.png" type="image" sizes="16x16">
-<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
-<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />
-<link href="/static/css/table_style.css" rel='stylesheet' type='text/css' />
-<!-- start plugins -->
-<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
-<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+	<title>MyMovies: Find movies you love and compare your ratings with the Wizard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="MyMovies: Find movies you love and compare your ratings with the Wizard" />
+
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+	<link rel="icon" href="/static/images/clapper_board.png" type="image" sizes="16x16">
+	<link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="/static/css/table_style.css" rel='stylesheet' type='text/css' />
+
+	<!-- Font Awesome icons -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" >
+
+	<!-- start plugins -->
+	<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
 </head>
+
 <body>
 <div class="container">
 	<div class="container_wrap">
@@ -46,61 +54,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			   </ul>
 			</div>
 			<div class="clearfix"> </div>
-	      </div>
+	    </div>
 	      
-      	     <!-- <div class="register">
-		  	  <form action="/signup" method="POST"> 
-				 <div class="register-top-grid">
-					<h3>Sign up for an account</h3>
-					 <div>
-						<span>Email<label>*</label></span>
-						<input type="text" name="signup_email"> 
-					 </div>
-					 <div>
-						<span>Password<label>*</label></span>
-						<input type="text" name="signup_password"> 
-					 </div> -->
-					 <!-- <div>
-						 <span>Email Address<label>*</label></span>
-						 <input type="text"> 
-					 </div> -->
-					 <!-- <div class="clearfix"> </div> -->
-					   <!-- <a class="news-letter" href="#">
-						 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>Sign Up for Newsletter</label>
-					   </a> -->
-					 <!-- </div>
-					 <div class="clearfix"> </div>
-					 <div class="register-but"> -->
-					    <!-- <form> -->
-					 	   <!-- <input type="submit" value="Sign up">
-					 	   <div class="clearfix"> </div> -->
-					    <!-- </form> -->
-					<!--  </div>
-			  </form>
-			  <form action="/login" method="POST">
-				     <div class="register-bottom-grid">
-						    <h3>Log into your account</h3>
-							 <div>
-								<span>Email<label>*</label></span>
-								<input type="text" name="login_email">
-							 </div>
-							 <div>
-								<span>Password<label>*</label></span>
-								<input type="text" name="login_password">
-							 </div>
-							 <div class="clearfix"> </div>
-					 </div>
-				
-				<div class="clearfix"> </div>
-				<div class="register-but"> -->
-				   <!-- <form> -->
-					  <!--  <input type="submit" value="Log in">
-					   <div class="clearfix"> </div> -->
-				   <!-- </form> -->
-				<!-- </div>
-			  </form>
-		   </div> -->
-		 <div class="content">
+		<div class="content">
 		 	{% with messages = get_flashed_messages(with_categories=true) %}
 		 	    {% if messages %}
 		 	      <div class="flash-messages">
@@ -113,17 +69,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		 	      </div>
 		 	    {% endif %}
 		 	{% endwith %}
+        </div>
 
-		   <!-- {% with messages = get_flashed_messages() %}
-		     {% for message in messages %}
-		         {{ message }}
-		     {% endfor %}
-		   {% endwith %} -->
+		{% block content %} put your content here {% endblock %}
 
-		   {% block content %} put your content here {% endblock %}
-         </div>
 
-		 <footer id="footer">
+		<footer id="footer">
 		 	<div id="footer-3d">
 				<div class="gp-container">
 					<span class="first-widget-bend"> </span>
@@ -140,33 +91,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					  <p class="text">Let's see what your taste in movies is like.</p>
 					 </div>
 					 <div class="footer_box">
-					  <div class="col_1_of_3 span_1_of_3">
-							<!-- <h3>Categories</h3>
-							<ul class="first">
-								<li><a href="#">Dance</a></li>
-								<li><a href="#">History</a></li>
-								<li><a href="#">Specials</a></li>
-							</ul> -->
-				     </div>
-				     <div class="col_1_of_3 span_1_of_3">
-							<!-- <h3>Information</h3>
-							<ul class="first">
-								<li><a href="#">New products</a></li>
-								<li><a href="#">top sellers</a></li>
-								<li><a href="#">Specials</a></li>
-							</ul> -->
-				     </div>
-				     <div class="col_1_of_3 span_1_of_3">
-							<!-- <h3>Follow Us</h3>
-							<ul class="first">
-								<li><a href="#">Facebook</a></li>
-								<li><a href="#">Twitter</a></li>
-								<li><a href="#">Youtube</a></li>
-							</ul> -->
+						 <div class="col_1_of_3 span_1_of_3">
+					     </div>
+					     <div class="col_1_of_3 span_1_of_3">
+					     </div>
+					     <div class="col_1_of_3 span_1_of_3 footer-names">
+							<p>Built by:</p>
+							<ul>
+								<li>
+									Allison Scofield
+									<a href="https://github.com/allisonscofield/ratings">
+									  <span class="fa fa-github fa-lg" aria-hidden="true"></span>
+									  Github
+									</a>
+								</li>
+								<li>Ashley Hsiao
+									<a href="https://github.com/ashleyhsia0/mymovies">
+									  <span class="fa fa-github fa-lg" aria-hidden="true"></span>
+									  Github
+									</a>
+								</li>
+							</ul>
 							<div class="copy">
 						      <p>&copy; 2015 Template by <a href="http://w3layouts.com" target="_blank"> w3layouts</a></p>
 					        </div>
-				     </div>
+					     </div>
 				    <div class="clearfix"> </div>
 			        </div>
 			        <div class="clearfix"> </div>
