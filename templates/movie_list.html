@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-    <h2>Movies</h2>
-    <ul>
-      {% for movie in movies %}
-          <li>
-              <a href="/movies/{{ movie.movie_id }}">
-                {{ movie.title }}
-              </a>
-          </li>
-      {% endfor %}
-    </ul>
+<div class="content">
+    <h2>All Movies</h2>
+
+    <div class="wrapper">
+      <div class="table">
+        
+        <div class="row header">
+          <div class="cell">
+            Title
+          </div>
+        </div>
+        
+        {% for movie in movies %}
+        <div class="row">
+          <div class="cell">
+            <p><a href="/movies/{{ movie.movie_id }}">{{ movie.title }}</a></p>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+    </div>
+</div>
 
 {% endblock %}
