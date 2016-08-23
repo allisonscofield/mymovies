@@ -100,14 +100,29 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<!-- </div>
 			  </form>
 		   </div> -->
-		   {% with messages = get_flashed_messages() %}
+		 <div class="content">
+		 	{% with messages = get_flashed_messages(with_categories=true) %}
+		 	    {% if messages %}
+		 	      <div class="flash-messages">
+		 	        {% for category, message in messages %}
+		 	          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+		 	            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		 	            {{ message }}
+		 	          </div>
+		 	        {% endfor %}
+		 	      </div>
+		 	    {% endif %}
+		 	{% endwith %}
+
+		   <!-- {% with messages = get_flashed_messages() %}
 		     {% for message in messages %}
 		         {{ message }}
 		     {% endfor %}
-		   {% endwith %}
+		   {% endwith %} -->
 
 		   {% block content %} put your content here {% endblock %}
-        
+         </div>
+
 		 <footer id="footer">
 		 	<div id="footer-3d">
 				<div class="gp-container">

@@ -1741,3 +1741,7 @@ a:hover {
 	font-weight: 400;
 	font-size: 0.8em;
 }
+
+.rate-padding {
+	padding-top: 5px;
+}

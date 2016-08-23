@@ -72,11 +72,11 @@
         {% endif %}
 
         {% if prediction %}
-            <p>We predict you will rate this movie {{ prediction }}</p>
+            <p class="rate-padding">We predict you will rate this movie: <b>{{ prediction|round|int }}</b></p>
         {% endif %}
-        
+        <br>
         {% if beratement %}
-            <p>{{ beratement }}</p>
+            <p>The Wizard says, "{{ beratement }}"</p>
         {% endif %}
     </div>
     

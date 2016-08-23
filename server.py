@@ -116,7 +116,7 @@ def signup():
     # If user exists, ask them to log in
     # Otherwise, add user into database and log them in, redirecting to homepage
     if db.session.query(User).filter(User.email == signup_email).first():
-        flash("You already have an account please use login!")
+        flash("You already have an account please use login!", "danger")
         return redirect("/signup-login")
 
     else:
@@ -127,7 +127,7 @@ def signup():
         session["logged_in_user_email"] = signup_email
         session["logged_in_user"] = new_user.user_id
         
-        flash("Your account has been created! You now are logged in!")
+        flash("Your account has been created! You now are logged in!", "success")
        
         return redirect("/")
 
@@ -145,7 +145,7 @@ def login():
     if db.session.query(User).filter(User.email == login_email, 
                                      User.password == login_password).first():
         
-        flash("Login SUCCESS.")        
+        flash("Login SUCCESS.", "success")        
 
         # Query to get user's user id, in order to redirect user to their user profile
         user = User.query.filter(User.email == login_email).one()
@@ -159,7 +159,7 @@ def login():
         # return redirect("/")
 
     else:
-        flash("Incorrect password. Please try again!")
+        flash("Incorrect password. Please try again!", "danger")
         return redirect("/signup-login")
 
 
@@ -170,7 +170,7 @@ def process_logout():
     del session["logged_in_user_email"]
     del session["logged_in_user"]
     
-    flash("Logged out.")
+    flash("Logged out.", "info")
     
     return redirect("/")
 
@@ -193,7 +193,7 @@ def movie_profile(movie_id):
     """
 
     if not session.get('logged_in_user_email'):
-        flash("Please login or signup to see the movie details and rate the movie!")
+        flash("Please login or signup to see the movie details and rate the movie!", "danger")
         return redirect("/signup-login")
 
     else:
@@ -315,14 +315,14 @@ def rate_movie(movie_id):
         # db.session.query(Rating).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).update(Rating.score == user_rating)
         db.session.commit()
 
-        flash("You have rated this movie before! It has now been updated to %s." % (user_rating))
+        flash("You have rated this movie before! It has now been updated to %s." % (user_rating), "warning")
         return redirect("/users/%s" % user_id)
 
     else:
         db.session.add(Rating(movie_id=movie_id, user_id=user_id, score=user_rating))
         db.session.commit()
         
-        flash("You have rated this movie a %s." % (user_rating))
+        flash("You have rated this movie a %s." % (user_rating), "info")
        
         return redirect("/users/%s" % user_id)
 
