@@ -1,29 +1,43 @@
 {% extends 'base.html' %}
+
 {% block content %}
+<div class="content">
+    <h2>My Movies</h2>
 
-    <h2>User Profile</h2>
-    <ul>
-        <li>User ID: {{ user.user_id }}</li>
-        <li>Email: {{ user.email }}</li>
-        <li>Age: {{user.age}}</li>
-        <li>Zip code: {{user.zipcode}}</li>
-    </ul>
-    
-    <h2>Movies Rated</h2>
-    <table>
-        <tr>
-            <td><b><u>Movie Title</u></b></td>
-            <td><b><u>Score</u></b></td>
-        </tr>
 
+    <div class="wrapper">
+      
+      <div class="table">
+        
+        <div class="row header">
+          <div class="cell">
+            Movie
+          </div>
+          <div class="cell">
+            Score
+          </div>
+        </div>
+        
         {% for movie in user_movies %}
-        <tr>
-            <td>{{ movie.title }}</td>
-            <td>{{ movie.score }}</td>
-        </tr>
+        <div class="row">
+          <div class="cell">
+            <p><a href="/movies/{{ movie.movie_id }}">{{ movie.title }}</a></p>
+          </div>
+          <div class="cell">
+            <p>{{ movie.score }}</p>
+          </div>
+        </div>
         {% endfor %}
-    </table>
-    <br>
-    <a href="/movies">Rate a Movie?</a>
 
+        <div class="row footer">
+            <div class="cell">
+                <p><a href="/movies">Rate Next Movie?</a></p>
+            </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+</div>
 {% endblock %}

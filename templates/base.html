@@ -14,6 +14,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <link href="/static/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/css/table_style.css" rel='stylesheet' type='text/css' />
 <!-- start plugins -->
 <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
@@ -38,7 +39,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			   	<!-- Show login message and user profile if user is logged in -->
 			   	 {% if session.get('logged_in_user_email') %}
 					 <li>You are currently logged in</li>
-    				 <li><p><a href="/users/{{user.user_id}}">View Profile</a></p></li>
+    				 <li><p><a href="/users/{{session.logged_in_user}}">View Profile</a></p></li>
 					 <li><p><a href="/logout">Log Out</a></p></li>
 			     {% else %}
 			     	 <li><p><a href="/signup-login">Sign up/Log In</a></p></li>

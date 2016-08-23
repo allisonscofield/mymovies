@@ -116,6 +116,7 @@ def signup():
         db.session.commit()
         
         session["logged_in_user_email"] = signup_email
+        session["logged_in_user"] = new_user.user_id
         
         flash("Your account has been created! You now are logged in!")
        
@@ -135,17 +136,17 @@ def login():
     if db.session.query(User).filter(User.email == login_email, 
                                      User.password == login_password).first():
         
-        session["logged_in_user_email"] = login_email
-        
         flash("Login SUCCESS.")        
 
         # Query to get user's user id, in order to redirect user to their user profile
         user = User.query.filter(User.email == login_email).one()
-        user_id = user.user_id
+
+        session["logged_in_user_email"] = login_email
+        session["logged_in_user"] = user.user_id
 
         # Pass a variable through a string via string formatting
         # so we can pass user_id into the redirected route, which is a string!!
-        return redirect("/users/%s" % user_id)
+        return redirect("/users/%s" % user.user_id)
         # return redirect("/")
 
     else:
@@ -158,6 +159,7 @@ def process_logout():
     """Log user out."""
 
     del session["logged_in_user_email"]
+    del session["logged_in_user"]
     
     flash("Logged out.")
     
