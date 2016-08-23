@@ -1690,6 +1690,10 @@ h2.m_3 {
 }
 }
 
+#logo-img {
+    width: 40px;
+}
+
 #logo-text {
 	font-size: 200%;
     color: #D8232A;
