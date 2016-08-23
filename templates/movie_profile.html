@@ -1,80 +1,85 @@
 {% extends 'base.html' %}
 {% block content %}
-
-    <h2>Movie Profile</h2>
-    <ul>
-        <li>Movie ID: {{ movie.movie_id }}</li>
-        <li>Title: {{ movie.title }}</li>        
-        <li>Released Date: {{movie.released_at}}</li>
-        <li>IMDB: <a href="{{movie.imdb_url}}">IMDB</a> </li>
-        <li>Description: {{movie.description}}</li>
-        <li>Genre: {{movie.genre}}</li>
-        <img src="{{ movie.image_url }}">
-        <li>Rated: {{movie.rated}}</li>
-
-    </ul>
-
-    <h2>Ratings</h2>
-    <table>
-        <tr>
-            <td><b><u>Rating Score</u></b></td>
-            <td><b><u>Number of Votes</u></b></td>
-        </tr>
-
-        {% for score, count in count_score %}
-        <tr>
-            <td>{{ score }}</td>
-            <td>{{ count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="content">
+    <h2>{{ movie.title }}</h2>
+    <p>
+        {{ movie.description }}
+    </p>
     <br>
-    <!-- Page breaks if movie has no ratings for the variable avg_rating to use string formatting
-    for two decimal places - Needed if/else statements-->
-    <b>Average Rating:</b> 
-    {% if avg_rating %}
-        {{ "{:.2f}".format(avg_rating) }} 
-    {% else %}
-        {{avg_rating}}
-    {% endif %}
+    <p>
+        <b>Release Date:</b> {{ movie.released_at }}<br>
+        <b>Genre:</b> {{ movie.genre }}<br>
+        <b>Rated:</b> {{ movie.rated }}
+    </p>
+    <br>
 
-    {% if prediction %}
-        <p>We predict you will rate this movie {{ prediction }}</p>
-    {% endif %}
-
-    {% if beratement %}
-        <p>{{ beratement }}</p>
-    {% endif %}
-
-    <!-- Below code shows all rating scores -->
-<!-- 
-    <h2>Ratings</h2>
-    <table>
-        <tr>
-            <td><b><u>Score</u></b></td>
-        </tr>
-
-        {% for rating in ratings %}
-        <tr>
-            <td>{{ rating.score }}</td>
-        </tr>
+    <h3>User Ratings</h3>
+    <div class="wrapper">
+      <div class="table">
+        
+        <div class="row header">
+          <div class="cell">
+            Rating Score
+          </div>
+          <div class="cell">
+            Number of Votes
+          </div>
+        </div>
+        
+        {% for score, count in count_score %}
+        <div class="row">
+          <div class="cell">
+            <p>{{ score }}</p>
+          </div>
+          <div class="cell">
+            <p>{{ count }}</p>
+          </div>
+        </div>
         {% endfor %}
-    </table> -->
-    <br><br>
-    {% if session.get('logged_in_user_email') %}
-    <form action="/movies/{{ movie.movie_id }}/rate-movie">
-        <!-- Double check label format for drop down selection -->
-        <label><b>Rate This Movie:</b></label>
-        <select name="user_rating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
 
-        <input type="submit">
-    </form>
-    {% endif %}
+        <div class="row footer">
+            <div class="cell">
+                <p>
+                    <!-- Page breaks if movie has no ratings for the variable avg_rating to use string formatting for two decimal places - Needed if/else statements-->
+                    Average Rating: 
+                    {% if avg_rating %}
+                        {{ "{:.2f}".format(avg_rating) }} 
+                    {% else %}
+                        {{avg_rating}}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+      </div>      
+    </div>
+
+    <div>
+        {% if session.get('logged_in_user_email') %}
+            <form action="/movies/{{ movie.movie_id }}/rate-movie">
+                <!-- Double check label format for drop down selection -->
+                <label><b>Rate This Movie:</b></label>
+                <select name="user_rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <input type="submit">
+            </form>
+        {% endif %}
+
+        {% if prediction %}
+            <p>We predict you will rate this movie {{ prediction }}</p>
+        {% endif %}
+        
+        {% if beratement %}
+            <p>{{ beratement }}</p>
+        {% endif %}
+    </div>
+    
+</div>
 
 {% endblock %}
