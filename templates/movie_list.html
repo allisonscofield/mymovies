@@ -15,11 +15,15 @@
         </div>
         
         {% for movie in movies %}
-        <div class="row">
-          <div class="cell">
-            <p><a href="/movies/{{ movie.movie_id }}">{{ movie.title }}</a></p>
-          </div>
-        </div>
+          {% if movie.movie_id == 267 %}
+            <div></div>
+          {% else %}
+            <div class="row">
+              <div class="cell">
+                <p><a href="/movies/{{ movie.movie_id }}">{{ movie.title }}</a></p>
+              </div>
+            </div>
+          {% endif %}
         {% endfor %}
         
       </div>
