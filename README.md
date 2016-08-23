@@ -1,7 +1,8 @@
 # MyMovies
 
-Find movies you love and compare your ratings with the Wizard!
-Let's see what your taste in movies is like.
+**MyMovies** is a recommendations platform that lets individuals rate films and then predicts how others will rate that film. It uses a Pearson correlation machine learning algorithm to calculate the Pearson score based on the difference of two ratings in order to predict how other users will rate a certain movie.
+
+Find movies you love and compare your ratings with the Wizard! Let's see what your taste in movies is like.
 
 ### Table of Contents
 
@@ -21,7 +22,7 @@ Let's see what your taste in movies is like.
 
 **APIs:** [Omdb](http://www.omdbapi.com/)
 
-**Data Set:** [100k MovieLens] (http://grouplens.org/datasets/movielens/100k/)
+**Data Set:** [100k MovieLens](http://grouplens.org/datasets/movielens/100k/)
 
 ## <a name="features"></a>Features
 ###Landing page:
@@ -36,28 +37,22 @@ Let's see what your taste in movies is like.
 + When that user submits the form, the form is POSTed to a route in the server which then stores the user information in the Postgres database
 + Once a user is logged in, they are redirected to their user profile page where on the server uses SQLAlchemy to query the Postgres database to return a user object which passes the variables into the jinja template so that it could access the object's attributes to display information about the user.
 
-
-###Homepage
-
 ###Movie List
-+ List of Movie Profiles
-
 <img align="center" src="/static/images/movielist.png" width="500">
 
++ Users can access a page to see movies available
 
 ###User Profile
-+ User profile page allows you to rate your favorite movies to your profile for easy access later.
-
 <img align="center" src="/static/images/userpic.png" width="500">
 
++ Users can access their profile page to see a list of movies they have rated before, along with the scores
 
 ###Movie Profile
+<img align="center" src="/static/images/moviepic.png" width="500">
 
-+
-+
-+
++ Users can see information about a movie, such as plot, genre, release date, parental guidance rating, as well as the rating given by other users
++ Users can give a rating to this specific movie
 
-<img align="center" src="/static/imgs/moviepic.png" width="500">
 ## <a name="installation"></a>Installation
 As MyMovies has not yet been deployed, please follow these instructions to run MyMovies locally on your machine:
 
@@ -67,7 +62,7 @@ Install [PostgreSQL](http://postgresapp.com) (Mac OSX).
 
 Postgres needs to be running in order for the app to work. It is running when you see the elephant icon:
 
-<img align="center" src="/static/imgs/postgres.png" width="200">
+<img align="center" src="/static/images/postgres.png" width="200">
 
 Add /bin directory to your path to use PostgreSQL commands and install the Python library.
 
@@ -98,7 +93,7 @@ Create database with the name `ratings`.
 
 ```$ createdb ratings```
 
-Seed the database with movies and ratings:
+Seed the database with movies, users, and ratings:
 
 ```$ python seed.py```
 
@@ -110,7 +105,6 @@ Go to `localhost:5000` in your browser to start using MyMovies!
 
 ## <a name="deployment"></a>Deployment
 Deployment details coming very soon!
-
 
 
 ## <a name="authoe"></a>Author  
