@@ -98,7 +98,7 @@ Create database with the name `ratings`.
 
 ```$ createdb ratings```
 
-Seed the database with restaurants:
+Seed the database with movies and ratings:
 
 ```$ python seed.py```
 
@@ -106,7 +106,7 @@ Finally, to run the app, start the server:
 
 ```$ python server.py```
 
-Go to `localhost:5000` in your browser to start using Breadcrumbs!
+Go to `localhost:5000` in your browser to start using MyMovies!
 
 ## <a name="deployment"></a>Deployment
 Deployment details coming very soon!
