@@ -7,6 +7,10 @@
         <li>Title: {{ movie.title }}</li>        
         <li>Released Date: {{movie.released_at}}</li>
         <li>IMDB: <a href="{{movie.imdb_url}}">IMDB</a> </li>
+        <li>Description: {{movie.description}}</li>
+        <li>Genre: {{movie.genre}}</li>
+        <img src="{{ movie.image_url }}">
+        <li>Rated: {{movie.rated}}</li>
 
     </ul>
 

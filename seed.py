@@ -7,6 +7,7 @@ from model import Movie
 import datetime
 from model import connect_to_db, db
 from server import app
+from omdb_api import get_movie_info
 
 
 def load_users():
@@ -201,3 +202,4 @@ if __name__ == "__main__":
     set_val_user_id()
     make_wizard()
     give_wizard_ratings()
+    get_movie_info()

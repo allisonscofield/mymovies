@@ -83,6 +83,10 @@ class Movie(db.Model):
     title = db.Column(db.String(150), nullable=False)
     released_at = db.Column(db.DateTime, nullable=True)
     imdb_url = db.Column(db.String, nullable=False)
+    description = db.Column(db.String(500), nullable=True)
+    image_url = db.Column(db.String(200), nullable=True)
+    genre = db.Column(db.String(200), nullable=True)
+    rated = db.Column(db.String(10), nullable=True)
 
     # Included repr method from solution
     def __repr__(self):
