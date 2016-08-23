@@ -30,22 +30,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		    		MyMovies
 		    	</a>
 		    </div>
-		    <div class="col-sm-6 nav">
-			  <!-- <ul>
-				 <li> <span class="simptip-position-bottom simptip-movable" data-tooltip="comic"><a href="movie.html"> </a></span></li>
-				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="movie"><a href="movie.html"> </a> </span></li>
-				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="video"><a href="movie.html"> </a></span></li>
-				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="game"><a href="movie.html"> </a></span></li>
-				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="tv"><a href="movie.html"> </a></span></li>
-				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="more"><a href="movie.html"> </a></span></li>
-			 </ul> -->
-			</div>
-			<div class="col-sm-3 header_right">
+			<div class="col-sm-offset-5 col-sm-4 header_right">
 			   <ul class="header_right_box">
 			   	<!-- Show login message and user profile if user is logged in -->
 			   	 {% if session.get('logged_in_user_email') %}
-					 <li>You are currently logged in</li>
-    				 <li><p><a href="/users/{{session.logged_in_user}}">View Profile</a></p></li>
+					 <!-- <li>You are currently logged in</li> -->
+					 <li><p><a href="/movies">Movies</a></p></li>
+    				 <li><p><a href="/users/{{session.logged_in_user}}">Profile</a></p></li>
 					 <li><p><a href="/logout">Log Out</a></p></li>
 			     {% else %}
 			     	 <li><p><a href="/signup-login">Sign up/Log In</a></p></li>
