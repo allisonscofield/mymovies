@@ -170,7 +170,7 @@ def process_logout():
     del session["logged_in_user_email"]
     del session["logged_in_user"]
     
-    flash("Logged out.", "info")
+    flash("Logged out.", "success")
     
     return redirect("/")
 
@@ -342,6 +342,6 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     app.run()
