@@ -35,8 +35,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="col-sm-3 header_right">
 			   <ul class="header_right_box">
+			   	<!-- Show login message and user profile if user is logged in -->
 			   	 {% if session.get('logged_in_user_email') %}
 					 <li>You are currently logged in</li>
+    				 <li><p><a href="/users/{{user.user_id}}">View Profile</a></p></li>
 					 <li><p><a href="/logout">Log Out</a></p></li>
 			     {% else %}
 			     	 <li><p><a href="/signup-login">Sign up/Log In</a></p></li>
@@ -47,7 +49,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="clearfix"> </div>
 	      </div>
-	      <div class="content">
+	      
       	     <!-- <div class="register">
 		  	  <form action="/signup" method="POST"> 
 				 <div class="register-top-grid">
@@ -107,60 +109,62 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		   {% endwith %}
 
 		   {% block content %} put your content here {% endblock %}
-           </div>
+        
+		 <footer id="footer">
+		 	<div id="footer-3d">
+				<div class="gp-container">
+					<span class="first-widget-bend"> </span>
+				</div>		
+			</div>
+		    <div id="footer-widgets" class="gp-footer-larger-first-col">
+				<div class="gp-container">
+		            <div class="footer-widget footer-1">
+		            	<div class="wpb_wrapper">
+							MyMovies
+						</div> 
+			          <br>
+			          <p>Find movies you love and compare your ratings with the Wizard!</p>
+					  <p class="text">Let's see what your taste in movies is like.</p>
+					 </div>
+					 <div class="footer_box">
+					  <div class="col_1_of_3 span_1_of_3">
+							<!-- <h3>Categories</h3>
+							<ul class="first">
+								<li><a href="#">Dance</a></li>
+								<li><a href="#">History</a></li>
+								<li><a href="#">Specials</a></li>
+							</ul> -->
+				     </div>
+				     <div class="col_1_of_3 span_1_of_3">
+							<!-- <h3>Information</h3>
+							<ul class="first">
+								<li><a href="#">New products</a></li>
+								<li><a href="#">top sellers</a></li>
+								<li><a href="#">Specials</a></li>
+							</ul> -->
+				     </div>
+				     <div class="col_1_of_3 span_1_of_3">
+							<!-- <h3>Follow Us</h3>
+							<ul class="first">
+								<li><a href="#">Facebook</a></li>
+								<li><a href="#">Twitter</a></li>
+								<li><a href="#">Youtube</a></li>
+							</ul> -->
+							<div class="copy">
+						      <p>&copy; 2015 Template by <a href="http://w3layouts.com" target="_blank"> w3layouts</a></p>
+					        </div>
+				     </div>
+				    <div class="clearfix"> </div>
+			        </div>
+			        <div class="clearfix"> </div>
+				</div>
+			</div>
+		  </footer>
+
     </div>
 </div>
-<div class="container"> 
- <footer id="footer">
- 	<div id="footer-3d">
-		<div class="gp-container">
-			<span class="first-widget-bend"> </span>
-		</div>		
-	</div>
-    <div id="footer-widgets" class="gp-footer-larger-first-col">
-		<div class="gp-container">
-            <div class="footer-widget footer-1">
-            	<div class="wpb_wrapper">
-					MyMovies
-				</div> 
-	          <br>
-	          <p>Find movies you love and compare your ratings with the Wizard!</p>
-			  <p class="text">Let's see what your taste in movies is like.</p>
-			 </div>
-			 <div class="footer_box">
-			  <div class="col_1_of_3 span_1_of_3">
-					<!-- <h3>Categories</h3>
-					<ul class="first">
-						<li><a href="#">Dance</a></li>
-						<li><a href="#">History</a></li>
-						<li><a href="#">Specials</a></li>
-					</ul> -->
-		     </div>
-		     <div class="col_1_of_3 span_1_of_3">
-					<!-- <h3>Information</h3>
-					<ul class="first">
-						<li><a href="#">New products</a></li>
-						<li><a href="#">top sellers</a></li>
-						<li><a href="#">Specials</a></li>
-					</ul> -->
-		     </div>
-		     <div class="col_1_of_3 span_1_of_3">
-					<!-- <h3>Follow Us</h3>
-					<ul class="first">
-						<li><a href="#">Facebook</a></li>
-						<li><a href="#">Twitter</a></li>
-						<li><a href="#">Youtube</a></li>
-					</ul> -->
-					<div class="copy">
-				      <p>&copy; 2015 Template by <a href="http://w3layouts.com" target="_blank"> w3layouts</a></p>
-			        </div>
-		     </div>
-		    <div class="clearfix"> </div>
-	        </div>
-	        <div class="clearfix"> </div>
-		</div>
-	</div>
-  </footer>
-</div>		
+<!-- <div class="container">  -->
+ 
+<!-- </div>	 -->	
 </body>
 </html>

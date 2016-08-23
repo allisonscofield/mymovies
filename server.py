@@ -181,99 +181,105 @@ def movie_profile(movie_id):
     If a user is logged in, let them add/edit a rating.
     """
 
+    if not session.get('logged_in_user_email'):
+        flash("Please login or signup to see the movie details and rate the movie!")
+        return redirect("/signup-login")
+
+    else:
+
     # import pdb; pdb.set_trace();
 
     # Query by movie id to return that record in database about movie info
     # movie = Movie.query.filter(Movie.movie_id == movie_id).one()
-    movie = Movie.query.get(movie_id)
+        movie = Movie.query.get(movie_id)
 
-    user = User.query.filter(User.email == session.get("logged_in_user_email")).one()
-    user_id = user.user_id
+        user = User.query.filter(User.email == session.get("logged_in_user_email")).one()
+        user_id = user.user_id
 
-    if user_id:
-        user_rating = Rating.query.filter_by(movie_id=movie_id, user_id=user_id).first()
-    else:
-        user_rating = None
+        if user_id:
+            user_rating = Rating.query.filter_by(movie_id=movie_id, user_id=user_id).first()
+        else:
+            user_rating = None
 
-    # Prediction code: only predict if the user hasn't rated it
-    prediction = None
+        # Prediction code: only predict if the user hasn't rated it
+        prediction = None
 
-    if (not user_rating) and user_id:
-        user = User.query.get(user_id)
-        if user:
-            prediction = user.predict_rating(movie)
+        if (not user_rating) and user_id:
+            user = User.query.get(user_id)
+            if user:
+                prediction = user.predict_rating(movie)
 
-    # Either use the prediction or their real rating
-    if prediction:
-        # User hasn't scored; use our prediction if we made one
-        effective_rating = prediction
+        # Either use the prediction or their real rating
+        if prediction:
+            # User hasn't scored; use our prediction if we made one
+            effective_rating = prediction
 
-    elif user_rating:
-        # User has already scored for real; use that
-        effective_rating = user_rating.score
+        elif user_rating:
+            # User has already scored for real; use that
+            effective_rating = user_rating.score
 
-    else:
-        # User hasn't scored and we couldn't get a prediction
-        effective_rating = None
+        else:
+            # User hasn't scored and we couldn't get a prediction
+            effective_rating = None
 
-    # Get the wizard's rating, either by predicting or using real rating
-    wizard = User.query.filter_by(email="wizard@gmail.com").one()
-    wizard_rating = Rating.query.filter_by(user_id=wizard.user_id, movie_id=movie.movie_id).first()
+        # Get the wizard's rating, either by predicting or using real rating
+        wizard = User.query.filter_by(email="wizard@gmail.com").one()
+        wizard_rating = Rating.query.filter_by(user_id=wizard.user_id, movie_id=movie.movie_id).first()
 
-    if wizard_rating is None:
-        wizard_rating = wizard.predict_rating(movie)
-    else:
-        wizard_rating = wizard_rating.score
+        if wizard_rating is None:
+            wizard_rating = wizard.predict_rating(movie)
+        else:
+            wizard_rating = wizard_rating.score
 
-    if wizard_rating and effective_rating:
-        difference = abs(wizard_rating - effective_rating)
-    else:
-        # We couldn't get a wizard rating, so we'll skip difference
-        difference = None
+        if wizard_rating and effective_rating:
+            difference = abs(wizard_rating - effective_rating)
+        else:
+            # We couldn't get a wizard rating, so we'll skip difference
+            difference = None
 
-    # Depending on how different we are from the Wizard, choose a message
-    BERATEMENT_MESSAGES = [
-        "I suppose you don't have such bad taste after all.",
-        "I regret every decision that I've ever made that has brought me to listen to your opinion.",
-        "Words fail me, as your taste in movies has clearly failed you.",
-        "That movie is great. For a clown to watch. Idiot.",
-        "Words cannot express the awfulness of your taste."
-    ]
+        # Depending on how different we are from the Wizard, choose a message
+        BERATEMENT_MESSAGES = [
+            "I suppose you don't have such bad taste after all.",
+            "I regret every decision that I've ever made that has brought me to listen to your opinion.",
+            "Words fail me, as your taste in movies has clearly failed you.",
+            "That movie is great. For a clown to watch. Idiot.",
+            "Words cannot express the awfulness of your taste."
+        ]
 
-    if difference is not None:
-        beratement = BERATEMENT_MESSAGES[int(difference)]
-    else:
-        beratement = None
+        if difference is not None:
+            beratement = BERATEMENT_MESSAGES[int(difference)]
+        else:
+            beratement = None
 
-    # Tallies score of each rating (how many people rated this score per rating)
-    # Returns list of tuples for count_score
-    unordered_ratings = db.session.query(Rating.score, func.count(Rating.score)).filter(Rating.movie_id == movie_id).group_by(Rating.score)
-    ordered_movies = unordered_ratings.order_by(Rating.score)
-    count_score = ordered_movies.all()
+        # Tallies score of each rating (how many people rated this score per rating)
+        # Returns list of tuples for count_score
+        unordered_ratings = db.session.query(Rating.score, func.count(Rating.score)).filter(Rating.movie_id == movie_id).group_by(Rating.score)
+        ordered_movies = unordered_ratings.order_by(Rating.score)
+        count_score = ordered_movies.all()
 
-    # Get average score, which returns a tuple-like object, so need to access index 0 to return the number and pass through jinja
-    avg_rating = db.session.query(func.avg(Rating.score)).filter(Rating.movie_id == movie_id).one()
+        # Get average score, which returns a tuple-like object, so need to access index 0 to return the number and pass through jinja
+        avg_rating = db.session.query(func.avg(Rating.score)).filter(Rating.movie_id == movie_id).one()
 
-    # Query to get all ratings for a specific movie
-    # Needed to join Rating and Movie tables and filter by user id
-    # Sort movie titles alphabetically
-    ratings = db.session.query(Rating.movie_id,
-                               Rating.score,
-                               Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
+        # Query to get all ratings for a specific movie
+        # Needed to join Rating and Movie tables and filter by user id
+        # Sort movie titles alphabetically
+        ratings = db.session.query(Rating.movie_id,
+                                   Rating.score,
+                                   Movie.title).join(Movie).filter(Rating.movie_id == movie_id).all()
 
-    # # Pass user info into jinja and called on its attributes
-    # # Pass count_score, avg_rating, and ratings into jinja
-    # return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
+        # # Pass user info into jinja and called on its attributes
+        # # Pass count_score, avg_rating, and ratings into jinja
+        # return render_template("movie_profile.html", movie=movie, count_score=count_score, avg_rating=avg_rating[0], ratings=ratings)
 
-    return render_template(
-        "movie_profile.html",
-        movie=movie,
-        user_rating=user_rating,
-        avg_rating=avg_rating[0],
-        count_score=count_score,
-        prediction=prediction,
-        ratings=ratings,
-        beratement=beratement)
+        return render_template(
+            "movie_profile.html",
+            movie=movie,
+            user_rating=user_rating,
+            avg_rating=avg_rating[0],
+            count_score=count_score,
+            prediction=prediction,
+            ratings=ratings,
+            beratement=beratement)
 
 
 @app.route("/movies/<int:movie_id>/rate-movie")

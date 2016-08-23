@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
+
 {% block content %}
-
-<h1>Ratings</h1>
-
-<h2>Movies</h2>
-<p><a href="/movies">View all movies</a></p>
-
-<h2>Users</h2>
-<p><a href="/users">View all users</a></p>
-
-
-<!-- Show user profile if user is logged in -->
-{% if session.get('logged_in_user_email') %}
-    <h2>User Profile</h2>
-    <a href="/users/{{user.user_id}}">View Profile</a>
-{% endif %}
-
-
-
+<div class="callbacks_container">
+  <ul class="rslides" id="slider">
+    <li><img src="/static/images/toystory.jpg" class="img-responsive" alt=""/>
+    	<div class="button">
+	      <a href="/movies/1" class="hvr-shutter-out-horizontal">Rate Now</a>
+	    </div>
+	</li>
+    <!-- <li><img src="images/banner1.jpg" class="img-responsive" alt=""/>
+    	<div class="button">
+	      <a href="#" class="hvr-shutter-out-horizontal">Watch Now</a>
+	    </div>
+	</li>
+    <li><img src="images/banner2.jpg" class="img-responsive" alt=""/>
+    	<div class="button">
+	      <a href="#" class="hvr-shutter-out-horizontal">Watch Now</a>
+	    </div>
+	</li> -->
+  </ul>
+</div>
 {% endblock %}
