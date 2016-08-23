@@ -20,6 +20,15 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 
+@app.template_filter()
+def datetimefilter(value, format='%b %d'):
+    """Convert a datetime to a different format so it can be accessible in Jinja."""
+
+    return value.strftime(format)
+
+app.jinja_env.filters['datetimefilter'] = datetimefilter
+
+
 @app.route('/')
 def index():
     """Homepage."""

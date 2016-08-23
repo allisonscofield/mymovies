@@ -1719,3 +1719,25 @@ a:hover {
 .copy p a {
 	color: #3f444e;
 }
+
+.center-content {
+	text-align: center;
+    border-radius: 10px;
+    border: 3px solid #EA6153;
+    padding: 20px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.rate-button {
+	color: #fff;
+	background: #d8232a;
+	/*padding: 8px 20px;*/
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 0.8em;
+}

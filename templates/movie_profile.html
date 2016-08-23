@@ -7,7 +7,7 @@
     </p>
     <br>
     <p>
-        <b>Release Date:</b> {{ movie.released_at }}<br>
+        <b>Release Date:</b> {{ movie.released_at|datetimefilter("%b %d, %Y") }}<br>
         <b>Genre:</b> {{ movie.genre }}<br>
         <b>Rated:</b> {{ movie.rated }}
     </p>
@@ -54,7 +54,7 @@
       </div>      
     </div>
 
-    <div>
+    <div class="center-content">
         {% if session.get('logged_in_user_email') %}
             <form action="/movies/{{ movie.movie_id }}/rate-movie">
                 <!-- Double check label format for drop down selection -->
@@ -67,7 +67,7 @@
                     <option value="5">5</option>
                 </select>
 
-                <input type="submit">
+                <input type="submit" class="rate-button">
             </form>
         {% endif %}
 
